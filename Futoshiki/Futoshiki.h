@@ -23,7 +23,7 @@ public:
 
 	Cell();
 	Cell(int x, int y, int v, int degree);
-	Cell(Cell&);
+	Cell(const Cell&);
 	std::set<int> domain;
 	std::vector<std::pair<direction, std::string>> constraints;
 };
@@ -39,7 +39,7 @@ public:
 
 
 	Board();
-	Board(Board&);
+	Board(const Board&);
 	// decrease domain for a whole line
 	void updateDomainCross(int x, int y, int v);
 	int selectUnassignedVariable();

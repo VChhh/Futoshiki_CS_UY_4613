@@ -31,7 +31,7 @@ Cell::Cell(int x, int y, int v, int degree = 8) {
 	for (int i = 1; i <= 5; i++) this->domain.insert(i);
 }
 
-Cell::Cell(Cell& rhs) {
+Cell::Cell(const Cell& rhs) {
 	this->x = rhs.x;
 	this->y = rhs.y;
 	this->value = rhs.value;
@@ -58,8 +58,8 @@ istream& operator>>(istream& is, Board& rhs) {
 	// initialize
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			//Cell c(i, j, 0);
-			//rhs.cells.push_back(c);
+			Cell c(i, j, 0);
+			rhs.cells.push_back(c);
 		}
 	}
 	
@@ -121,7 +121,7 @@ Board::Board() {
 }
 
 // copy constructor
-Board::Board(Board& rhs) {
+Board::Board(const Board& rhs) {
 	this->cells = rhs.cells;
 	this->filled = rhs.filled;
 }
