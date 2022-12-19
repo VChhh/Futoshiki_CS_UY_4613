@@ -15,17 +15,17 @@ enum direction;
 
 struct Cell
 {
+public:
 	int x;
 	int y;
 	int value;
-	int domain_size;
+	int degree;
 
 	Cell();
-	Cell(int x, int y, int v, int domain_size = 5);
+	Cell(int x, int y, int v, int degree);
 	Cell(Cell&);
 	std::set<int> domain;
 	std::vector<std::pair<direction, std::string>> constraints;
-	void updateDomain(string, int); // ?
 };
 
 
@@ -38,16 +38,15 @@ public:
 	std::vector<Cell> cells;
 
 
-
+	Board();
 	Board(Board&);
 	// decrease domain for a whole line
 	void updateDomainCross(int x, int y, int v);
-
-	int getConstraint(int index);
-
 	int selectUnassignedVariable();
+	void update_domain_by_constraits();
 	bool checkComplete() { return filled == 25; };
 	bool solve();
+	void clear() { filled = 0; cells.clear(); }
 
 
 };
