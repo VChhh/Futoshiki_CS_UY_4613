@@ -1,6 +1,9 @@
 #ifndef FUTOSHIKI_H
 #define FUTOSHIKI_H
 
+// author
+// Charles Pan, cp3723
+// Nick Li, ql2015
 
 #include <string>
 #include <vector>
@@ -16,13 +19,11 @@ enum direction;
 struct Cell
 {
 public:
-	int x;
-	int y;
 	int value;
 	int degree;
 
 	Cell();
-	Cell(int x, int y, int v, int degree);
+	Cell(int v, int degree);
 	Cell(const Cell&);
 	std::set<int> domain;
 	std::vector<std::pair<direction, std::string>> constraints;
@@ -47,7 +48,7 @@ public:
 	int selectUnassignedVariable();
 	void update_domain_by_constraits();
 	bool checkComplete() { return filled == 25; };
-	bool solve(Board& result);
+	bool solve();
 	void clear() { filled = 0; cells.clear(); }
 
 	Board& operator=(const Board& rhs);
