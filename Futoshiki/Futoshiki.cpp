@@ -40,7 +40,23 @@ Cell::Cell(const Cell& rhs) {
 	this->constraints = rhs.constraints;
 }
 
+Cell Cell::operator=(const Cell& rhs) {
+	Cell c;
+	c.domain = rhs.domain;
+	c.degree = rhs.degree;
+	return c;
+}
+
 ///////////////////////////// BOARD /////////////////////////////////
+
+// overload = opeartor
+Board Board::operator=(const Board& rhs) {
+	Board b;
+	b.filled = rhs.filled;
+	b.cells = rhs.cells;
+	return b;
+}
+
 // output solution
 ostream& operator<<(ostream& os, const Board& rhs) {
 	int i, j;
@@ -58,8 +74,8 @@ istream& operator>>(istream& is, Board& rhs) {
 	// initialize
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			Cell c(i, j, 0);
-			rhs.cells.push_back(c);
+			//Cell c(i, j, 0);
+			//rhs.cells.push_back(c);
 		}
 	}
 	
@@ -69,25 +85,20 @@ istream& operator>>(istream& is, Board& rhs) {
 		for (int i = 0; i < 5; i++) {
 			is >> value;
 			// not blank
-			if (value != 0) {
-				
+			if (value != 0) {	
 				rhs.cells[j * 5 + i].value = value;
-				std::cout << "here\n";
 				rhs.updateDomainCross(i, j, value);
 				rhs.filled++;
 			}
-			std::cout << "there\n";
 		}
 	}
-
-	
 
 	// read constraints
 	string symbol;
 	// horizontal constraints
 	// 5 rows of 4 constraints
 	for (int j = 0; j < 5; j++) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			is >> symbol;
 			if (symbol != "0") {
 				rhs.cells[j * 5 + i].constraints.push_back({ r, symbol });
@@ -98,7 +109,7 @@ istream& operator>>(istream& is, Board& rhs) {
 	// vertical constraints
 	// 4 rows of 5 constraints
 	for (int j = 0; j < 4; j++) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			is >> symbol;
 			if (symbol != "0") {
 				rhs.cells[j * 5 + i].constraints.push_back({ d, symbol });
@@ -115,8 +126,8 @@ istream& operator>>(istream& is, Board& rhs) {
 Board::Board() {
 	filled = 0;
 	for (int i = 0; i < 25; ++i) {
-		//Cell c(0, 0, 0, 8);
-		//cells.push_back(c);
+		Cell c(0, 0, 0, 8);
+		cells.push_back(c);
 	}
 }
 
@@ -209,19 +220,32 @@ void Board::update_domain_by_constraits() {
 	}
 }
 
-bool Board::solve() {
+bool Board::solve(Board& result) {
 	if (checkComplete()) {
+		cout << "yeah" << endl;
+		result = *this;
 		return true;
 	}
 	int index = selectUnassignedVariable();
 	if (cells[index].domain.size() == 0) return false;
-	bool result = false;
 	for (int i : cells[index].domain) {
+
 		Board new_board(*this);
-		new_board.updateDomainCross(index / 5, index % 5, i);
+		new_board.cells[index].value = i;
+		new_board.filled++;
+		new_board.updateDomainCross(index % 5, index / 5, i);
 		new_board.update_domain_by_constraits();
-		result |= new_board.solve();
-		if (result) return result; // if true, return directly
+		cout << "before solve\n";
+		cout << new_board;
+		new_board.solve(result);
+		cout << "after solve\n";
+		cout << new_board;
+		
+		if (new_board.checkComplete()) {
+			cout << "returning" << endl;
+			cout << new_board;
+			return true;
+		} // if true, return directly
 	}
-	return result;
+	return false;
 }

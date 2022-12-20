@@ -26,6 +26,8 @@ public:
 	Cell(const Cell&);
 	std::set<int> domain;
 	std::vector<std::pair<direction, std::string>> constraints;
+
+	Cell operator=(const Cell& rhs);
 };
 
 
@@ -45,10 +47,10 @@ public:
 	int selectUnassignedVariable();
 	void update_domain_by_constraits();
 	bool checkComplete() { return filled == 25; };
-	bool solve();
+	bool solve(Board& result);
 	void clear() { filled = 0; cells.clear(); }
 
-
+	Board operator=(const Board& rhs);
 };
 
 
