@@ -27,7 +27,7 @@ public:
 	std::set<int> domain;
 	std::vector<std::pair<direction, std::string>> constraints;
 
-	Cell operator=(const Cell& rhs);
+	Cell& operator=(const Cell& rhs);
 };
 
 
@@ -50,7 +50,7 @@ public:
 	bool solve(Board& result);
 	void clear() { filled = 0; cells.clear(); }
 
-	Board operator=(const Board& rhs);
+	Board& operator=(const Board& rhs);
 };
 
 

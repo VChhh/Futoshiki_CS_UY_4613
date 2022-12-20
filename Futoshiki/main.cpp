@@ -13,8 +13,14 @@ int main() {
 		std::cout << "input " << i << std::endl;
 		std::ifstream ifs("Input" + std::to_string(i) + ".txt");
 		ifs >> board;
-		Board result;
-		board.solve(result);
+		//Board result;
+		//board.solve(result);
+		//std::cout << result;
+
+		Board result = Board(board);
+		result = board;
+		Board b;
+		result = b;
 
 		std::cout << "\n-----------------------\n";
 		std::cout << result;

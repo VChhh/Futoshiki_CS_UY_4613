@@ -40,21 +40,22 @@ Cell::Cell(const Cell& rhs) {
 	this->constraints = rhs.constraints;
 }
 
-Cell Cell::operator=(const Cell& rhs) {
-	Cell c;
-	c.domain = rhs.domain;
-	c.degree = rhs.degree;
-	return c;
+Cell& Cell::operator=(const Cell& rhs) {
+	this->domain = rhs.domain;
+	this->degree = rhs.degree;
+	return *this;
 }
 
 ///////////////////////////// BOARD /////////////////////////////////
 
 // overload = opeartor
-Board Board::operator=(const Board& rhs) {
-	Board b;
-	b.filled = rhs.filled;
-	b.cells = rhs.cells;
-	return b;
+Board& Board::operator=(const Board& rhs) {
+	cout << rhs;
+	cout << "in" << endl;
+	this->filled = rhs.filled;
+	this->cells = rhs.cells;
+	cout << *this;
+	return *this;
 }
 
 // output solution
